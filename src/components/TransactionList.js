@@ -1,9 +1,17 @@
-import React from "react"
+import React, { useState } from "react"
 import { Button, Table, Space, Tag, Popconfirm, Modal } from "antd"
 import { DeleteOutlined,EditOutlined, BugOutlined } from '@ant-design/icons';
 import dayjs from "dayjs";
+import EditItem from "./EditItem";
 
 export default function TransactionList(props) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [currentItem, setCurrentItem] = useState(null);
+
+  const handleEdit = (item) => {
+    setCurrentItem(item);
+    setIsEditModalOpen(true);
+  }
 
   const columns = [
     { 
@@ -35,13 +43,21 @@ export default function TransactionList(props) {
             
           </Popconfirm>
 
-          <Button
+          <Button 
               type="primary"
               shape="square"
               icon={<EditOutlined />}
               style={{backgroundColor: 'pink'}}
-              onClick={() => props.onRowEdit(record)}
+              onClick={() => handleEdit({
+                name: 'Sample Item',
+                description: 'Sample description'
+              })}
           >Edit</Button>
+          <EditItem
+            isOpen={isEditModalOpen}
+            item={currentItem}
+            onItemEdited={handleEdit}
+            onCancel={() => setIsEditModalOpen(false)} />
 
           <Button 
             type="primary" 
