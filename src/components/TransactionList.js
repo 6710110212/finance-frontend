@@ -1,6 +1,6 @@
 import React from "react"
 import { Button, Table, Space, Tag, Popconfirm, Modal } from "antd"
-import { DeleteOutlined, BugOutlined } from '@ant-design/icons';
+import { DeleteOutlined,EditOutlined, BugOutlined } from '@ant-design/icons';
 import dayjs from "dayjs";
 
 export default function TransactionList(props) {
@@ -34,6 +34,13 @@ export default function TransactionList(props) {
               icon={<DeleteOutlined />} />
             
           </Popconfirm>
+
+          <Button
+              type="primary"
+              shape="circle"
+              icon={<EditOutlined />}
+              onClick={() => props.onRowEdit(record)}
+          />
 
           <Button 
             type="primary" 
