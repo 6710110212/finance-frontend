@@ -36,17 +36,6 @@ export default function TransactionList(props) {
       title: "Action", key: "action", render: (_, record) => (
         <Space size="middle">
           
-          <Popconfirm
-            title="Delete the transaction"
-            description="Are you sure to delete this transaction?"
-            onConfirm={() => props.onRowDeleted(record.id)}
-          >
-            <Button danger 
-              type="primary" 
-              shape="circle" 
-              icon={<DeleteOutlined />} />
-            
-          </Popconfirm>
 
           <Button 
               type="primary"
@@ -63,6 +52,18 @@ export default function TransactionList(props) {
             item={currentItem}
             onItemEdited={handleItemEdited}
             onCancel={() => setIsEditModalOpen(false)} />
+
+          <Popconfirm
+            title="Delete the transaction"
+            description="Are you sure to delete this transaction?"
+            onConfirm={() => props.onRowDeleted(record.id)}
+          >
+            <Button danger 
+              type="primary" 
+              shape="circle" 
+              icon={<DeleteOutlined />} />
+            
+          </Popconfirm>
 
           <Button 
             type="primary" 
