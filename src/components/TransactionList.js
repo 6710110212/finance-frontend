@@ -37,10 +37,11 @@ export default function TransactionList(props) {
 
           <Button
               type="primary"
-              shape="circle"
+              shape="square"
               icon={<EditOutlined />}
+              style={{backgroundColor: 'pink'}}
               onClick={() => props.onRowEdit(record)}
-          />
+          >Edit</Button>
 
           <Button 
             type="primary" 
