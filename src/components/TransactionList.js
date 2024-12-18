@@ -32,7 +32,9 @@ export default function TransactionList(props) {
               type="primary" 
               shape="circle" 
               icon={<DeleteOutlined />} />
+            
           </Popconfirm>
+
           <Button 
             type="primary" 
             shape="circle" 
