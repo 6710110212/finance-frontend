@@ -13,6 +13,11 @@ export default function TransactionList(props) {
     setIsEditModalOpen(true);
   }
 
+  const handleItemEdited = (updatedItem) => {
+    console.log('Update Item :', updatedItem);
+    setIsEditModalOpen(false);
+  };
+
   const columns = [
     { 
       title: "Date-Time", 
@@ -56,7 +61,7 @@ export default function TransactionList(props) {
           <EditItem
             isOpen={isEditModalOpen}
             item={currentItem}
-            onItemEdited={handleEdit}
+            onItemEdited={handleItemEdited}
             onCancel={() => setIsEditModalOpen(false)} />
 
           <Button 
