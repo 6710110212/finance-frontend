@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Form, Input, Alert } from 'antd';
+import { Button, Form, Input, Alert, Checkbox } from 'antd';
 import axios from 'axios'
 
 const URL_AUTH = "/api/auth/local"
@@ -7,7 +7,8 @@ const URL_AUTH = "/api/auth/local"
 export default function LoginScreen(props) {
 
   const [isLoading, setIsLoading] = useState(false)
-  const [errMsg, setErrMsg] = useState(null)
+  const [errMsg, setErrMsg] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = async (formData) => {
     try {
@@ -15,13 +16,24 @@ export default function LoginScreen(props) {
       setErrMsg(null)
       const response = await axios.post(URL_AUTH, { ...formData })
       const token = response.data.jwt
+
+      if (rememberMe) {
+        localStorage.setItem('token', token);
+      } else {
+        sessionStorage.setItem('token', token);
+      }
+
       axios.defaults.headers.common = { 'Authorization': `bearer ${token}` }
       props.onLoginSuccess();
     } catch (err) {
       console.log(err)
       setErrMsg(err.message)
     } finally { setIsLoading(false) }
-  }
+  };
+
+  const handleRememberMeChange = (e) => {
+    setRememberMe(e.target.checked);
+  };
 
   return (
     <Form
@@ -45,6 +57,10 @@ export default function LoginScreen(props) {
         name="password"
         rules={[{ required: true },]}>
         <Input.Password />
+      </Form.Item>
+
+      <Form.Item>
+        <Checkbox onChange={handleRememberMeChange}>Remember Me</Checkbox>
       </Form.Item>
 
       <Form.Item>
