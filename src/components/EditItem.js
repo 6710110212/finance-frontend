@@ -13,7 +13,8 @@ export default function EditItem({ isOpen, item, onItemEdited, onCancel }) {
     const handleFormSubmit = () => {
         form.validateFields()
             .then((formData) => {
-                onItemEdited(formData);
+                const updatedItem = { ...item, ...formData};
+                onItemEdited(updatedItem);
                 form.resetFields();
             })
             .catch((errorinfo) => {

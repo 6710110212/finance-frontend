@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import { Divider } from 'antd';
 import AddItem from './components/AddItem';
+import EditItem from './components/EditItem';
 import { Spin, Typography } from 'antd';
 import axios from 'axios'
 
@@ -13,6 +14,8 @@ function FinanceScreen() {
   const [summaryAmount, setSummaryAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false)
   const [transactionData, setTransactionData] = useState([])
+
+  const [currentEditItem, setCurrenteditItem] = useState(null);
 
   const fetchItems = async () => {
     try {
@@ -25,8 +28,10 @@ function FinanceScreen() {
       })))
     } catch (err) {
       console.log(err)
-    } finally { setIsLoading(false) }
-  }
+    } finally { 
+      setIsLoading(false);
+    }
+  };
 
   const handleAddItem = async (item) => {
     try {
@@ -39,9 +44,9 @@ function FinanceScreen() {
         { id: id, key: id, ...attributes }
       ])
     } catch (err) {
-      console.log(err)
+      console.log(err);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -64,7 +69,30 @@ function FinanceScreen() {
     } finally {
       setIsLoading(false)
     }
-  }
+  };
+
+  const handleEditItem =(item) => {
+    setCurrenteditItem(item);
+  };
+    
+  
+
+  const updateItem = async (item) => {
+    try{
+      setIsLoading(true);
+      await axios.put(`${URL_TXACTIONS}/${item.id}`, { data: item });
+      setTransactionData(
+        transactionData.map(transaction =>
+          transaction.id === item.id ? {...transaction, ...item} : transaction
+        )
+      );
+      setCurrenteditItem(null);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchItems()
@@ -91,8 +119,18 @@ function FinanceScreen() {
           <TransactionList
             data={transactionData}
             onNoteChanged={handleNoteChanged}
-            onRowDeleted={handleRowDeleted} />
+            onRowDeleted={handleRowDeleted} 
+            onRowEdit={handleEditItem}
+          />
         </Spin>
+        {currentEditItem && (
+          <EditItem
+            isOpen={!!currentEditItem}
+            item={currentEditItem}
+            onItemedited={updateItem}
+            oncancel={() => setCurrenteditItem(null)}
+          />
+        )}
       </header>
     </div>
   );
