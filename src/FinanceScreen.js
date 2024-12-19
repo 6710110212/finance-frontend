@@ -71,8 +71,8 @@ function FinanceScreen() {
     }
   };
 
-  const handleEditItem =(item) => {
-    setCurrenteditItem(item);
+  const handleEditItem =(updatedItemitem) => {
+    updateItem(updatedItemitem);
   };
     
   
@@ -118,9 +118,9 @@ function FinanceScreen() {
           <Divider>บันทึก รายรับ - รายจ่าย</Divider>
           <TransactionList
             data={transactionData}
+            onRowEdit={handleEditItem}
             onNoteChanged={handleNoteChanged}
             onRowDeleted={handleRowDeleted} 
-            onRowEdit={handleEditItem}
           />
         </Spin>
         {currentEditItem && (

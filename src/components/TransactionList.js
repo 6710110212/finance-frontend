@@ -14,7 +14,7 @@ export default function TransactionList(props) {
   }
 
   const handleItemEdited = (updatedItem) => {
-    console.log('Update Item :', updatedItem);
+    props.onRowEdit(updatedItem);
     setIsEditModalOpen(false);
   };
 
@@ -36,17 +36,14 @@ export default function TransactionList(props) {
       title: "Action", key: "action", render: (_, record) => (
         <Space size="middle">
           
-
           <Button 
               type="primary"
               shape="square"
               icon={<EditOutlined />}
               style={{backgroundColor: 'pink'}}
-              onClick={() => handleEdit({
-                name: 'Sample Item',
-                description: 'Sample description'
-              })}
+              onClick={() => handleEdit(record)}
           >Edit</Button>
+
           <EditItem
             isOpen={isEditModalOpen}
             item={currentItem}
