@@ -40,7 +40,7 @@ export default function TransactionList(props) {
               type="primary"
               shape="square"
               icon={<EditOutlined />}
-              style={{backgroundColor: 'pink'}}
+              style={{backgroundColor: '#998ed9'}}
               onClick={() => handleEdit(record)}
           >Edit</Button>
 
